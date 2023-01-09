@@ -101,7 +101,7 @@ life_cycle: "alpha"
 kind: "lesson"
 
 # Start time in minutes (0 to be clock-independent, 540 to show a start at 09:00 am).
-start_time: 540
+start_time: 600
 
 # Magic to make URLs resolve both locally and on GitHub. Please don't change.
 repository: <USERNAME>/<PROJECT>
