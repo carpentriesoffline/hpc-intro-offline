@@ -1,10 +1,25 @@
-* `-l select=<nnodes>:ncpus=<ncores per node>` &mdash; how many nodes does your
-  job need and how many cores per node? Note that there are 36 cores per node
-  on Cirrus.
+As a minimum, on the Cirrus platform, all job submissions must specify the budget that they wish to charge the job too, the partition they wish to use and the QoS they want to use with the options:
 
-* `-l walltime=<hours:minutes:seconds>` &mdash; How much real-world time
-  (walltime) will your job take to run?
+* `--account=<budgetID>` your budget ID is typically your project code, for example `tc036`. You can see which budget codes you can charge to in SAFE.
 
-* `-l place=scatter:excl` &mdash; Reserve your nodes just for yourself. (If you
-  are using full nodes, you should include this as it stops other users from
-  interfering with the performance of your job.)
+* `--partition=<partition>` The partition specifies the set of nodes you want to run on. More information on available partitions is given in the [Cirrus documentation](https://cirrus.readthedocs.io/en/main/user-guide/batch.html#id1).
+
+* `--qos="QoS"` The QoS specifies the limits to apply to your job. Again, more information on available QoS are given in the documentation.
+
+
+Other common options that are used are:
+
+* `--time=<hh:mm:ss>` the maximum walltime for your job. e.g. For a 6.5 hour walltime, you would use `--time=06:30:00`.
+
+* `--job-name=<jobname>` set a name for the job to help identify it in Slurm command output.
+
+
+In addition, parallel jobs will also need to specify how many nodes, parallel processes and threads they require.
+
+* `--exclusive` to ensure that you have exclusive access to a compute node
+
+* `--nodes=<nodes>` the number of nodes to use for the job.
+
+* `--tasks-per-node=<processes per node>` the number of parallel processes (e.g. MPI ranks) per node.
+
+* `--cpus-per-task=<threads per task>` the number of threads per parallel process (e.g. number of OpenMP threads per MPI task for hybrid MPI/OpenMP jobs). Note: you must also set the `OMP_NUM_THREADS` environment variable if using OpenMP in your job and usually add the `--cpu-bind=cores` option to srun

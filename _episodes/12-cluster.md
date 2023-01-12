@@ -77,7 +77,7 @@ beegfs  bin  boot  data  dev  etc  home  home-archive  lib  lib64  media  mnt  o
 ```
 {: .output}
 
-The "{{ site.remote.homedir | replace: "/", "" }}" directory is the one where
+The "{{ site.remote.homedir }}" directory is the one where
 we generally want to keep all of our files. Other folders on a UNIX OS contain
 system files and change as you install new software or upgrade your OS.
 

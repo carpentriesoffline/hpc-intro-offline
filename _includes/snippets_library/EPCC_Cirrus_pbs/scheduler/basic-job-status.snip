@@ -1,12 +1,9 @@
 ```
-{{ site.remote.host }}:
-                                                       Req'd  Req'd   Elap
-Job ID Username Queue    Jobname        SessID NDS TSK Memory Time  S Time
------- -------- -------- -------------- ------ --- --- ------ ----- - -----
-387775 yourUser workq    example-job.sh  50804   1   1    --  96:00 R 00:00
+             JOBID PARTITION           NAME         USER ST       TIME  NODES NODELIST(REASON)
+           3934430  standard example-job.sh yourUsername  R       0:00      1 r1i6n26
 ```
 {: .output}
 
 We can see all the details of our job, most importantly that it is in the `R`
 or `RUNNING` state. Sometimes our jobs might need to wait in a queue
-(`PENDING`) or have an error (`E`).
+(`PD` or `PENDING`) or become terminated, for example due to `OUT_OF_MEMORY` (`OOM`) error, `TIMEOUT` (`TO`) or some other `FAILED` (`F`) condition.

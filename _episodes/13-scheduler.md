@@ -15,7 +15,7 @@ objectives:
 keypoints:
 - "The scheduler handles how compute resources are shared between users."
 - "A job is just a shell script."
-- "Request _slightly_ more resources than you will need."
+- "If in doubt, request more resources than you will need."
 ---
 
 ## Job Scheduler
@@ -107,10 +107,31 @@ available to perform the work.
 {{ site.remote.prompt }} {{ site.sched.submit.name }} {% if site.sched.submit.options != '' %}{{ site.sched.submit.options }} {% endif %}example-job.sh
 ```
 {: .language-bash}
+```
+sbatch: Your job has no time specification (--time=) and the default time is short. You can cancel your job with 'scancel <JOB_ID>' if you wish to resubmit.
+sbatch: Warning: It appears your working directory may not be on one of the work filesystem. It is /mnt/cephfs/ceph01/site-home/home/tc036/tc036/nkg85-whpc. The home filesystem is not available from the compute nodes - please check that this is what you intended. You can cancel your job with 'scancel <JOBID>' if you wish to resubmit.
+Submitted batch job 3934401
+```
+{: .output}
 
-{% include {{ site.snippets }}/scheduler/basic-job-script.snip %}
+Ah! What went wrong here? Slurm is telling us that the file system we are currently on, `/home`, is not available
+on the compute nodes and that we are getting the default, short runtime. We will deal with the runtime properly
+later, but we need to move to a different file system to submit the job and have it visible to the 
+compute nodes. On Cirrus, this is the `/work` file system. The path is similar to home but with 
+`/work` at the start. Lets move there now, copy our job script across and resubmit:
 
-And that's all we need to do to submit a job. Our work is done -- now the
+```
+{{ site.remote.prompt }} cd /work/tc036/tc036/yourUsername  
+{{ site.remote.prompt }} cp ~/example-job.sh .  
+{{ site.remote.prompt }} {{ site.sched.submit.name }} {{ site.sched.submit.options }} --time=00:00:10 example-job.sh
+```
+{: .language-bash}
+```
+Submitted batch job 3934430
+```
+{: .output}
+
+That's better! And that's all we need to do to submit a job. Our work is done -- now the
 scheduler takes over and tries to run the job for us. While the job is waiting
 to run, it goes into a list of jobs called the _queue_. To check on our job's
 status, we check the queue using the command
@@ -162,7 +183,7 @@ name of a job. Add an option to the script:
 
 ```
 {{ site.remote.bash_shebang }}
-{{ site.sched.comment }} {{ site.sched.flag.name }} hello-world
+{{ site.sched.comment }} {{ site.sched.flag.name }}=hello-world
 
 echo -n "This script is running on "
 hostname
@@ -172,7 +193,7 @@ hostname
 Submit the job and monitor its status:
 
 ```
-{{ site.remote.prompt }} {{ site.sched.submit.name }} {% if site.sched.submit.options != '' %}{{ site.sched.submit.options }} {% endif %}example-job.sh
+{{ site.remote.prompt }} {{ site.sched.submit.name }} {% if site.sched.submit.options != '' %}{{ site.sched.submit.options }} {% endif %} --time=00:00:10 example-job.sh
 {{ site.remote.prompt }} {{ site.sched.status }} {{ site.sched.flag.user }}
 ```
 {: .language-bash}
@@ -191,8 +212,6 @@ find the right time and place to schedule our job. If you do not specify
 requirements (such as the amount of time you need), you will likely be stuck
 with your site's default resources, which is probably not what you want.
 
-The following are several key resource requests:
-
 {% include {{ site.snippets }}/scheduler/option-flags-list.snip %}
 
 Note that just _requesting_ these resources does not make your job run faster,
@@ -205,10 +224,21 @@ It's best if your requests accurately reflect your job's requirements. We'll
 talk more about how to make sure that you're using resources effectively in a
 later episode of this lesson.
 
+
+> ## Command line options or job script options?
+> All of the options we specify can be supplied on the command line (as we
+> do here for `--partition=standard` and `--qos=standard`) or in the job script (as we have done
+> for the job name above). These are interchangeable. It is often more convenient
+> to put the options in the job script as it avoids lots of typing at the command
+> line.
+{: .callout}
+
+
 > ## Submitting Resource Requests
 >
 > Modify our `hostname` script so that it runs for a minute, then submit a job
-> for it on the cluster.
+> for it on the cluster. You should also move all the options we have been specifying
+> on the command line (e.g. `--partition` and `--qos`) into the script at this point.
 >
 > > ## Solution
 > >
@@ -219,7 +249,9 @@ later episode of this lesson.
 > >
 > > ```
 > > {{ site.remote.bash_shebang }}
-> > {{ site.sched.comment }} {{ site.sched.flag.time }} 00:01 # timeout in HH:MM
+> > {{ site.sched.comment }} --partition=standard
+> > {{ site.sched.comment }} --qos=standard
+> > {{ site.sched.comment }} {{ site.sched.flag.time }}=00:01 # timeout in HH:MM
 > >
 > > echo -n "This script is running on "
 > > sleep 20 # time in seconds
@@ -228,7 +260,7 @@ later episode of this lesson.
 > > {: .output}
 > >
 > > ```
-> > {{ site.remote.prompt }} {{ site.sched.submit.name }} {% if site.sched.submit.options != '' %}{{ site.sched.submit.options }} {% endif %}example-job.sh
+> > {{ site.remote.prompt }} {{ site.sched.submit.name }} example-job.sh
 > > ```
 > > {: .language-bash}
 > >
@@ -249,8 +281,10 @@ wall time, and attempt to run a job for two minutes.
 
 ```
 {{ site.remote.bash_shebang }}
-{{ site.sched.comment }} {{ site.sched.flag.name }} long_job
-{{ site.sched.comment }} {{ site.sched.flag.time }} 00:01 # timeout in HH:MM
+{{ site.sched.comment }} --partition=standard
+{{ site.sched.comment }} --qos=standard
+{{ site.sched.comment }} {{ site.sched.flag.name }}=long_job
+{{ site.sched.comment }} {{ site.sched.flag.time }}=00:01 # timeout in HH:MM
 
 echo "This script is running on ... "
 sleep 240 # time in seconds
@@ -262,8 +296,8 @@ Submit the job and wait for it to finish. Once it is has finished, check the
 log file.
 
 ```
-{{ site.remote.prompt }} {{ site.sched.submit.name }} {% if site.sched.submit.options != '' %}{{ site.sched.submit.options }} {% endif %}example-job.sh
-{{ site.remote.prompt }} {{ site.sched.status }} {{ site.sched.flag.user }}
+{{ site.remote.prompt }} {{ site.sched.submit.name }} example-job.sh
+{{ site.remote.prompt }} {{ site.sched.status }} {{ site.sched.flag.user }} 
 ```
 {: .language-bash}
 
@@ -282,6 +316,19 @@ jobs on the node will be unaffected. This means that one user cannot mess up
 the experience of others, the only jobs affected by a mistake in scheduling
 will be their own.
 
+> ## But how much does it cost?
+> Although your job will be killed if it exceeds the selected runtime,
+> a job that completes within the time limit is only charged for the
+> time it actually used. However, you should always try and specify a
+> wallclock limit that is close to (but greater than!) the expected
+> runtime as this will enable your job to be scheduled more
+> quickly.
+> If you say your job will run for an hour, the scheduler has
+> to wait until a full hour becomes free on the machine. If it only ever
+> runs for 5 minutes, you could have set a limit of 10 minutes and it
+> might have been run earlier in the gaps between other users' jobs.
+{: .callout}
+
 ## Cancelling a Job
 
 Sometimes we'll make a mistake and need to cancel a job. This can be done with
@@ -290,7 +337,7 @@ its job number (remember to change the walltime so that it runs long enough for
 you to cancel it before it is killed!).
 
 ```
-{{ site.remote.prompt }} {{ site.sched.submit.name }} {% if site.sched.submit.options != '' %}{{ site.sched.submit.options }} {% endif %}example-job.sh
+{{ site.remote.prompt }} {{ site.sched.submit.name }} example-job.sh
 {{ site.remote.prompt }} {{ site.sched.status }} {{ site.sched.flag.user }}
 ```
 {: .language-bash}
@@ -302,7 +349,7 @@ return of your command prompt indicates that the request to cancel the job was
 successful.
 
 ```
-{{ site.remote.prompt }} {{site.sched.del }} 38759
+{{ site.remote.prompt }} {{site.sched.del }} 3936036
 # It might take a minute for the job to disappear from the queue...
 {{ site.remote.prompt }} {{ site.sched.status }} {{ site.sched.flag.user }}
 ```

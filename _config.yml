@@ -24,7 +24,7 @@ snippets: "/snippets_library/EPCC_Cirrus_pbs"
 
 local:
   prompt: "[user@laptop ~]$"
-  bash_shebang: "#!/usr/bin/env bash"
+  bash_shebang: "#!/bin/bash"
 
 remote:
   name: "Cirrus"
@@ -32,17 +32,17 @@ remote:
   host: "cirrus-login1"
   node: "r1i0n0"
   location: "EPCC, The University of Edinburgh"
-  homedir: "/home/tca036/tc036"
+  homedir: "/home/tc036/tc036"
   user: "yourUsername"
   prompt: "[yourUsername@cirrus-login1 ~]$"
   module_python3: "python3"
-  bash_shebang: "#!/usr/bin/env bash"
+  bash_shebang: "#!/bin/bash"
 
 sched:
   name: "Slurm"
   submit:
     name: "sbatch"
-    options: ""
+    options: "--partition=standard --qos=standard"
   queue:
     debug: "debug"
     testing: "testing"
@@ -51,8 +51,8 @@ sched:
     user: "-u yourUsername"
     interactive: ""
     histdetail: "-l -j"
-    name: "-J"
-    time: "-t"
+    name: "--job-name"
+    time: "--time"
     queue: "-p"
     nodes: "-N"
     tasks: "-n"

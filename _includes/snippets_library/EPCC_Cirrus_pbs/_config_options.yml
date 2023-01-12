@@ -32,7 +32,7 @@ remote:
   homedir: "/home/tc036/tc036"
   user: "yourUsername"
   prompt: "[yourUsername@cirrus-login1 ~]$"
-  bash_shebang: "#!/usr/bin/env bash"
+  bash_shebang: "#!/bin/bash"
 
 sched:
   name: "PBS Pro"
