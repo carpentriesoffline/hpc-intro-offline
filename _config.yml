@@ -20,21 +20,21 @@
 # installation. Remember to keep the leading slash on the
 # `snippets` variable below!
 
-snippets: "/snippets_library/ComputeCanada_Graham_slurm"
+snippets: "/snippets_library/EPCC_Cirrus_pbs"
 
 local:
   prompt: "[user@laptop ~]$"
   bash_shebang: "#!/usr/bin/env bash"
 
 remote:
-  name: "Graham"
-  login: "graham.computecanada.ca"
-  host: "gra-login1"
-  node: "aci-377"
-  location: "University of Waterloo"
-  homedir: "/home"
+  name: "Cirrus"
+  login: "login.cirrus.ac.uk"
+  host: "cirrus-login1"
+  node: "r1i0n0"
+  location: "EPCC, The University of Edinburgh"
+  homedir: "/home/tca036/tc036"
   user: "yourUsername"
-  prompt: "[yourUsername@gra-login1 ~]$"
+  prompt: "[yourUsername@cirrus-login1 ~]$"
   module_python3: "python3"
   bash_shebang: "#!/usr/bin/env bash"
 

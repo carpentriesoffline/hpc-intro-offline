@@ -26,12 +26,12 @@ local:
 remote:
   name: "Cirrus"
   login: "login.cirrus.ac.uk"
-  host: "cirrus-login0"
-  node: "r1i0n32"
+  host: "cirrus-login1"
+  node: "r1i0n0"
   location: "EPCC, The University of Edinburgh"
-  homedir: "/lustre/home/tc001/lola"
+  homedir: "/home/tc036/tc036"
   user: "yourUsername"
-  prompt: "[yourUsername@cirrus-login0 ~]$"
+  prompt: "[yourUsername@cirrus-login1 ~]$"
   bash_shebang: "#!/usr/bin/env bash"
 
 sched:

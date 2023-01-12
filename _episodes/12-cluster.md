@@ -73,9 +73,7 @@ devices are anchored to the "root" directory, which is `/`:
 ```
 {: .language-bash}
 ```
-bin   etc   lib64  proc  sbin     sys  var
-boot  {{ site.remote.homedir | replace: "/", "" }}  mnt    root  scratch  tmp  working
-dev   lib   opt    run   srv      usr
+beegfs  bin  boot  data  dev  etc  home  home-archive  lib  lib64  media  mnt  opt  proc  root  run  sbin  scratch  srv  sys  tmp  usr  var  work
 ```
 {: .output}
 
