@@ -1,53 +1,58 @@
-To demonstrate, let's load the `abinit` module and then use the `module list`
+To demonstrate, let's load the `gromacs` module and then use the `module list`
 command to show which modules we currently have loaded in our environment.
-([Abinit](https://www.abinit.org/) is an open source materials science
-modelling software package.)
+([Gromacs](https://gromacs.org) is an open source molecular dynamics package.)
 
 ```
-{{ site.remote.prompt }} module load abinit
+{{ site.remote.prompt }} module load gromacs
 {{ site.remote.prompt }} module list
 ```
 {: .language-bash}
 
 ```
 Currently Loaded Modulefiles:
-  1) anaconda/python3                  6) intel-cmkl-17/17.0.2.174
-  2) mpt/2.16                          7) gcc/6.2.0
-  3) intel-cc-17/17.0.2.174            8) fftw-3.3.5-intel-17.0.2-dxt2dzn
-  4) intel-fc-17/17.0.2.174            9) netcdf/4.4.1
-  5) intel-compilers-17/17.0.2.174    10) abinit/8.2.3-intel17-mpt214
+ 1) git/2.37.3   2) epcc/utils   3) /mnt/lustre/indy2lfs/sw/modulefiles/epcc/setup-env   4) gcc/8.2.0(default)   5) mpt/2.25   6) gromacs/2022.1(default) 
 ```
 {: .output}
 
-So in this case, loading the `abinit` module also loaded a variety of other
-modules. Let's try unloading the `abinit` package.
+So in this case, loading the `gromacs` module also loaded a variety of other
+modules. Let's try unloading the `gromacs` package.
 
 ```
-{{ site.remote.prompt }} module unload abinit
+{{ site.remote.prompt }} module unload gromacs
 {{ site.remote.prompt }} module list
 ```
 {: .language-bash}
 
 ```
 Currently Loaded Modulefiles:
-  1) anaconda/python3
+ 1) git/2.37.3   2) epcc/utils   3) /mnt/lustre/indy2lfs/sw/modulefiles/epcc/setup-env
 ```
 {: .output}
 
 So using `module unload` "un-loads" a module along with its dependencies. If we
 wanted to unload everything at once, we could run `module purge` (unloads
-everything).
+everything) but you should receive a warning if you try to do this.
 
 ```
-{{ site.remote.prompt }} module load abinit
+{{ site.remote.prompt }} module load gromacs
 {{ site.remote.prompt }} module purge
 ```
 {: .language-bash}
 
 ```
-No Modulefiles Currently Loaded.
+Warning: Unloading the epcc/setup-env module will stop many
+modules being available on the system. If you do this by
+accident, you can recover the situation with the command:
+
+        module load /lustre/sw/modulefiles/epcc/setup-env
 ```
 {: .output}
 
-Note that `module purge` has removed the `anaconda/python3` module as well as
-`abinit` and its dependencies.
+Note that `module purge` has removed the `R` module as well as
+`gromacs` and its dependencies. We also received a warning that purging
+removes many potentially useful modules. We can re-load these by
+following the instructions in the warning.
+```
+{{ site.remote.prompt }} module load /lustre/sw/modulefiles/epcc/setup-env
+```
+{: .language-bash}

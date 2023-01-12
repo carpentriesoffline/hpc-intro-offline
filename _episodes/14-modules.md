@@ -90,31 +90,32 @@ message telling you so
 {: .language-bash}
 
 ```
-No Modulefiles Currently Loaded.
+Currently Loaded Modulefiles:
+ 1) git/2.37.3   2) epcc/utils   3) /mnt/lustre/indy2lfs/sw/modulefiles/epcc/setup-env 
 ```
 {: .output}
 
 ## Loading and Unloading Software
 
 To load a software module, use `module load`. In this example we will use
-Python 3.
+R.
 
-Initially, Python 3 is not loaded. We can test this by using the `which`
+Initially, R is not loaded. We can test this by using the `which`
 command. `which` looks for programs the same way that Bash does, so we can use
 it to tell us where a particular piece of software is stored.
 
 ```
-{{ site.remote.prompt }} which python3
+{{ site.remote.prompt }} which R
 ```
 {: .language-bash}
 
-{% include {{ site.snippets }}/modules/missing-python.snip %}
+{% include {{ site.snippets }}/modules/missing-R.snip %}
 
-We can load the `python3` command with `module load`:
+We can load the `R` command with `module load`:
 
-{% include {{ site.snippets }}/modules/module-load-python.snip %}
+{% include {{ site.snippets }}/modules/module-load-R.snip %}
 
-{% include {{ site.snippets }}/modules/python-executable-dir.snip %}
+{% include {{ site.snippets }}/modules/R-executable-dir.snip %}
 
 So, what just happened?
 
@@ -130,18 +131,18 @@ variables we can print it out using `echo`.
 ```
 {: .language-bash}
 
-{% include {{ site.snippets }}/modules/python-module-path.snip %}
+{% include {{ site.snippets }}/modules/R-module-path.snip %}
 
 You'll notice a similarity to the output of the `which` command. In this case,
 there's only one difference: the different directory at the beginning. When we
 ran the `module load` command, it added a directory to the beginning of our
 `$PATH`. Let's examine what's there:
 
-{% include {{ site.snippets }}/modules/python-ls-dir-command.snip %}
+{% include {{ site.snippets }}/modules/R-ls-dir-command.snip %}
 
-{% include {{ site.snippets }}/modules/python-ls-dir-output.snip %}
+{% include {{ site.snippets }}/modules/R-ls-dir-output.snip %}
 
-Taking this to its conclusion, `module load` will add software to your `$PATH`.
+In summary, `module load` will add software to your `$PATH`.
 It "loads" software. A special note on this - depending on which version of the
 `module` program that is installed at your site, `module load` will also load
 required software dependencies.
@@ -183,7 +184,7 @@ Let's examine the output of `module avail` more closely.
 
 > ## Using Software Modules in Scripts
 >
-> Create a job that is able to run `python3 --version`. Remember, no software
+> Create a job that is able to run `R --version`. Remember, no software
 > is loaded by default! Running a job is just like logging on to the system
 > (you should not assume a module loaded on the login node is loaded on a
 > compute node).
@@ -191,22 +192,25 @@ Let's examine the output of `module avail` more closely.
 > > ## Solution
 > >
 > > ```
-> > {{ site.remote.prompt }} nano python-module.sh
-> > {{ site.remote.prompt }} cat python-module.sh
+> > {{ site.remote.prompt }} nano R-module.sh
+> > {{ site.remote.prompt }} cat R-module.sh
 > > ```
 > > {: .language-bash}
 > >
 > > ```
 > > {{ site.remote.bash_shebang }}
+> > {{ site.sched.comment }} --partition=standard
+> > {{ site.sched.comment }} --qos=standard
+> > {{ site.sched.comment }} {{ site.sched.flag.time }}=00:01
+> > 
+> > module load R
 > >
-> > module load {{ site.remote.module_python3 }}
-> >
-> > python3 --version
+> > R --version
 > > ```
 > > {: .output}
 > >
 > > ```
-> > {{ site.remote.prompt }} {{ site.sched.submit.name }} {% if site.sched.submit.options != '' %}{{ site.sched.submit.options }} {% endif %}python-module.sh
+> > {{ site.remote.prompt }} {{ site.sched.submit.name }} R-module.sh
 > > ```
 > > {: .language-bash}
 > {: .solution}

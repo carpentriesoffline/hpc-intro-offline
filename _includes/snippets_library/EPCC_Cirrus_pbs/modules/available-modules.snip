@@ -1,12 +1,58 @@
 ```
------------- /usr/share/Modules/modulefiles -----------
-dot         module-info  mpt_2.16  perfboost    use.own
-module-git  modules      null      perfcatcher
+------------------------------------------------------- /mnt/lustre/indy2lfs/sw/modulefiles -------------------------------------------------------
+altair-hwsolvers/13.0.213    gdb/10.2                             intel-fc-19/19.0.0.117                   openfoam/v2106                        
+altair-hwsolvers/14.0.210    git/2.21.0(default)                  intel-itac-18/2018.5.025                 openmpi/4.1.2                         
+anaconda/python3             git/2.37.3                           intel-itac-19/19.0.0.117                 openmpi/4.1.2-cuda-11.6               
+ansys/18.0                   gmp/6.2.0-intel                      intel-license                            openmpi/4.1.4(default)                
+ansys/19.0                   gmp/6.2.1-mpt                        intel-mpi-18/18.0.5.274                  openmpi/4.1.4-cuda-11.6               
+ant/1.10.8(default)          gnu-parallel/20200522-gcc6(default)  intel-mpi-19/19.0.0.117                  perf/1.0.0                            
+autotools/default            gnuplot/5.4.0(default)               intel-tbb-18/18.0.5.274                  petsc/3.13.2-intel-mpi-18             
+binutils/2.36(default)       gromacs/2020.2                       intel-tbb-19/19.0.0.117(default)         petsc/3.13.2-mpt                      
+bison/3.6.4                  gromacs/2020.2-gpu                   intel-tools-18/18.0.5.274                pyfr/1.14.0-gpu                       
+boost/1.67.0                 gromacs/2022.1(default)              intel-tools-19/19.0.0.117                pyfr/1.15.0-gpu(default)              
+boost/1.73.0(default)        gromacs/2022.1-gpu                   intel-vtune-18/2018.4.0.573462(default)  python/3.9.12-gpu                     
+castep/18/(default)          gromacs/2022.3-gpu                   intel-vtune-19/2019.0.2.570779(default)  python/3.9.13                         
+castep/18/18.1.0             gsl/2.6-gcc8                         java/jdk-14.0.1                          python/3.9.13-gpu                     
+castep/19/19.1.1             gsl/2.7-gcc8(default)                lammps/3March2020-intel19-mpt            pytorch/1.12.1                        
+cmake/3.17.3(default)        hdf5parallel/1.10.4-intel18-impi18   lammps/23Jun2022_intel19_mpt             pytorch/1.12.1-gpu                    
+cmake/3.22.1                 hdf5parallel/1.10.6-gcc6-mpt225      libnsl/1.3.0(default)                    quantum-espresso/6.5-intel-19         
+cp2k/7.1                     hdf5parallel/1.10.6-gcc8-mpt225      libpng/1.6.30                            quantum-espresso/6.5-intel-20.4       
+CRYSTAL17/1.0.2_intel18      hdf5parallel/1.10.6-intel18-mpt225   libtirpc/1.2.6(default)                  R/3.6.3                               
+CUnit/2.1.3(default)         hdf5parallel/1.10.6-intel19-mpt225   libtool/2.4.6                            R/4.0.2(default)                      
+dolfin/2019.1.0-intel-mpi    hdf5parallel/1.12.0-nvhpc-openmpi    libxkbcommon/1.0.1(default)              scalasca/2.6-gcc8-mpt225              
+dolfin/2019.1.0-mpt          hdf5serial/1.10.6-intel18            matlab/R2019a                            scalasca/2.6-intel19-mpt225           
+eclipse/2020-09(default)     horovod/0.25.0                       matlab/R2019b                            singularity/3.7.2(default)            
+epcc/deprecated-software     horovod/0.25.0-gpu                   matlab/R2020b(default)                   specfem3d/3.0(default)                
+epcc/setup-env               htop/3.1.2                           matlab/R2021b                            starccm+/13.06.012(default)           
+epcc/utils                   htop/3.2.1(default)                  metis/5.1.0                              starccm+/13.06.012-R8                 
+expat/2.2.9                  ImageMagick/7.0.10-22(default)       mpc/1.1.0                                starccm+/14.04.013-R8                 
+fenics/2019.1.0-intel-mpi    intel-19.5/cc                        mpfr/4.0.2-intel                         starccm+/14.06.013-R8                 
+fenics/2019.1.0-mpt          intel-19.5/cmkl                      mpfr/4.0.2-mpt                           starccm+/15.02.009-R8                 
+fftw/3.3.8-gcc8-ompi4        intel-19.5/compilers                 namd/2.14(default)                       starccm+/15.04.010-R8                 
+fftw/3.3.8-intel18           intel-19.5/fc                        namd/2.14-gpu                            starccm+/15.06.008-R8                 
+fftw/3.3.8-intel19(default)  intel-19.5/itac                      namd/2.14-nosmp                          starccm+/16.02.009                    
+fftw/3.3.9-impi19-gcc8       intel-19.5/mpi                       ncl/6.6.2                                starccm+/2019.3.1-R8                  
+fftw/3.3.10-intel19-mpt225   intel-19.5/pxse                      nco/4.9.3                                starccm+/2020.1.1-R8                  
+fftw/3.3.10-intel20.4        intel-19.5/tbb                       ncview/2.1.7                             starccm+/2020.2.1-R8                  
+flacs-cfd/20.1               intel-19.5/vtune                     netcdf-parallel/4.6.2-intel18-impi18     starccm+/2020.3.1-R8                  
+flacs-cfd/20.2               intel-20.4/cc                        netcdf-parallel/4.6.2-intel19-mpt225     starccm+/2021.1.1                     
+flacs-cfd/21.1               intel-20.4/cmkl                      ninja/1.10.2(default)                    strace/5.8(default)                   
+flacs-cfd/21.2               intel-20.4/compilers                 nvidia/cudnn/8.2.1-cuda-11.6             svn/1.14.0(default)                   
+flacs-cfd/22.1               intel-20.4/fc                        nvidia/cudnn/8.5.0-cuda-11.6             tensorflow/2.9.1-gpu                  
+flacs/10.9.1                 intel-20.4/itac                      nvidia/cudnn/8.6.0-cuda-11.6(default)    tensorflow/2.10.0                     
+flex/2.6.4                   intel-20.4/mpi                       nvidia/nvhpc-byo-compiler/21.2           tmux/3.3a(default)                    
+gaussian/16.A03(default)     intel-20.4/psxe                      nvidia/nvhpc-byo-compiler/21.9           ucx/1.9.0                             
+gcc/6.2.0                    intel-20.4/tbb                       nvidia/nvhpc-byo-compiler/22.2           ucx/1.9.0-cuda-11.6                   
+gcc/6.3.0                    intel-20.4/vtune                     nvidia/nvhpc-nompi/22.2                  udunits/2.2.26                        
+gcc/8.2.0(default)           intel-cc-18/18.0.5.274               nvidia/nvhpc/22.2                        valgrind/3.16.1(default)              
+gcc/10.2.0                   intel-cc-19/19.0.0.117               nvidia/tensorrt/7.2.3.4                  vasp/5/5.4.4-intel19-mpt220(default)  
+gdal/2.1.2-gcc               intel-cmkl-18/18.0.5.274             nvidia/tensorrt/8.4.3.1-u2               vasp/6/6.2.1-intel19-mpt220(default)  
+gdal/2.1.2-intel             intel-cmkl-19/19.0.0.117             oneapi/2022.2.0(default)                 zlib/1.2.11(default)                  
+gdal/2.4.4-gcc               intel-compilers-18/18.05.274         openfoam/v8.0                            
+gdal/2.4.4-intel             intel-compilers-19/19.0.0.117        openfoam/v9.0                            
+gdb/9.2(default)             intel-fc-18/18.0.5.274               openfoam/v2006                           
 
---------------- /lustre/sw/modulefiles ----------------
-abinit/8.2.3-intel17-mpt214(default)
-allinea/7.0.0(default)
-altair-hwsolvers/13.0.213
-...
+--------------------------------------------------------- /usr/share/Modules/modulefiles ----------------------------------------------------------
+dot  hmpt/2.25  module-git  module-info  modules  mpt/2.25  null  perfboost  use.own  
 ```
 {: .output}
