@@ -62,19 +62,34 @@ This shows all the jobs we ran recently (note that there are multiple entries
 per job). To get info about a specific job, we change command slightly.
 
 ```
-{{ site.remote.prompt }} {{ site.sched.hist }} {{ site.sched.flag.histdetail }} 1965
+{{ site.remote.prompt }} {{ site.sched.hist }} {{ site.sched.flag.histdetail }} 3939324
 ```
 {: .language-bash}
 
 It will show a lot of info; in fact, every single piece of info collected on
-your job by the scheduler will show up here. It may be useful to redirect this
-information to `less` to make it easier to view (use the left and right arrow
-keys to scroll through fields).
+your job by the scheduler will show up here. It may be useful to specify the
+infomation we want using the `-o` or `--format` option. Use the command
+`sacct --helpformat` to get a list of output options.
+
 
 ```
-{{ site.remote.prompt }} {{ site.sched.hist }} {{ site.sched.flag.histdetail }}
+{{ site.remote.prompt }} {{ site.sched.hist }} -j 3939324 -o 'JobID, AllocCPUS,State,ExitCode,Elapsed,ReqMem'
 ```
 {: .language-bash}
+```
+JobID         AllocCPUS      State ExitCode    Elapsed     ReqMem 
+------------ ---------- ---------- -------- ---------- ---------- 
+3939324               4  COMPLETED      0:0   00:00:08     28600M 
+3939324.bat+          4  COMPLETED      0:0   00:00:08            
+3939324.ext+          4  COMPLETED      0:0   00:00:08            
+3939324.0             4  COMPLETED      0:0   00:00:06 
+
+```
+{: .output}
+
+
+
+
 
 > ## Discussion
 >
@@ -87,18 +102,18 @@ keys to scroll through fields).
 
 ## Improving Resource Requests
 
-From the job history, we see that `pi.py` jobs finished executing in
-at most a few minutes, once dispatched. The time estimate we provided
-in the job script was far too long! This makes it harder for the
-queuing system to accurately estimate when resources will become free
-for other jobs. Practically, this means that the queuing system waits
-to dispatch our `pi.py` job until the full requested time slot opens,
+Using the job history we can give better time estimates for our
+jobs. When we overestimate the time needed to complete a job it 
+makes it harder for the queuing system to accurately estimate when 
+resources will become free for other jobs. 
+Practically, this means that the queuing system waits
+to dispatch our job until the full requested time slot opens,
 instead of "sneaking it in" a much shorter window where the job could
 actually finish. Specifying the expected runtime in the submission
 script more accurately will help alleviate cluster congestion and may
 get your job dispatched earlier.
 
-> ## Narrow the Time Estimate
+<!-- > ## Narrow the Time Estimate
 >
 > Edit `parallel_pi.sh` to set a better time estimate. How close can
 > you get?
@@ -115,6 +130,6 @@ get your job dispatched earlier.
 > > ```
 > > {: .language-bash}
 > {: .solution}
-{: .challenge}
+{: .challenge} -->
 
 {% include links.md %}

@@ -1,12 +1,18 @@
 ```
-{{ site.remote.host }}:
-                                                                Req'd  Req'd
-Job ID              Username Queue    Jobname    SessID NDS TSK Memory Time  S
-------------------- -------- -------- ---------- ------ --- --- ------ ----- -
-324396.{{ site.remote.host }} user     workq    test1       57348   1   1    -
-324397.{{ site.remote.host }} user     workq    test2       57456   1   1    -
-324401.{{ site.remote.host }} user     workq    test3       58159   1   1    -
-324410.{{ site.remote.host }} user     workq    test4       34027   1   1    -
-324418.{{ site.remote.host }} user     workq    test5       35243   1   1    -
+JobID           JobName  Partition    Account  AllocCPUS      State ExitCode 
+------------ ---------- ---------- ---------- ---------- ---------- -------- 
+3938249       serial-pi   standard      tc036          1  COMPLETED      0:0 
+3938249.bat+      batch                 tc036          1  COMPLETED      0:0 
+3938249.ext+     extern                 tc036          1  COMPLETED      0:0 
+3938265       serial-pi   standard      tc036          1  COMPLETED      0:0 
+3938265.bat+      batch                 tc036          1  COMPLETED      0:0 
+3938265.ext+     extern                 tc036          1  COMPLETED      0:0 
+3938266       serial-pi   standard      tc036          1 OUT_OF_ME+    0:125 
+3938266.bat+      batch                 tc036          1 OUT_OF_ME+    0:125 
+3938266.ext+     extern                 tc036          1 OUT_OF_ME+    0:125 
+3939324      parallel-+   standard      tc036          4  COMPLETED      0:0 
+3939324.bat+      batch                 tc036          4  COMPLETED      0:0 
+3939324.ext+     extern                 tc036          4  COMPLETED      0:0 
+3939324.0        python                 tc036          4  COMPLETED      0:0 
 ```
 {: .output}
