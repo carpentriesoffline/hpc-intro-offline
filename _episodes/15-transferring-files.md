@@ -432,6 +432,40 @@ then provide a directory to compress:
 > back to Windows format, you can run `unix2dos filename`.)
 {: .callout}
 
+
+
+> ## Data Limits and File Systems
+>
+> Note that file systems and storage quotas will differ between HPC platforms.
+>
+> On Cirrus, every project has an allocation on the work file system and your 
+> project’s space can always be accessed via the path `/work/[project-code]`. 
+> The work file system is approximately 400 TB in size and is implemented using 
+> the Lustre parallel file system technology. There are currently no backups of any 
+> data on the work file system. Ideally, the work file system should only contain data
+> that is actively in use, recently generated and in the process of being saved
+> elsewhere or being made ready for up-coming work. This file system is visible
+> from the login and compute nodes.
+>
+> Make sure that important data is always backed up elsewhere and that your work would
+> not be significantly impacted if the data on the work file system was lost.
+>
+> Every project has an allocation on the home file system and your project’s space can 
+> always be accessed via the path `/home/[project-code]`. The home file system is 
+> approximately 1.5 PB in size and is implemented using the Ceph technology. This 
+> means that this storage is not particularly high performance but are well suited
+>  to standard operations like compilation and file editing. This file system is 
+> visible from the Cirrus login nodes but not compute nodes.
+>
+>There are currently no backups of any data on the home file system.
+>
+> More information on using the solid state storage on Cirrus can be found in the 
+> [Solid state storage](https://cirrus.readthedocs.io/en/main/user-guide/solidstate.html) section of the user guide.
+>
+{: .callout}
+
+
+
 {% include links.md %}
 
 [rsync]: https://rsync.samba.org/

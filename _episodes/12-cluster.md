@@ -137,6 +137,9 @@ This may show only your user ID, but there are likely several other people
 > rule of thumb, consider all transfers of a volume larger than 500 MB to 1 GB
 > as large. But these numbers change, e.g., depending on the network connection
 > of yourself and of your cluster or other factors.
+>
+> Cirrus does not have dedicated transfer nodes but other systems may differ.
+>
 {: .callout}
 
 The real work on a cluster gets done by the _compute_ (or _worker_) _nodes_.

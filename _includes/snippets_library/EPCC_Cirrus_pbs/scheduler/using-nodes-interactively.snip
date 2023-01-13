@@ -26,7 +26,7 @@ an analysis or we are attempting to debug something that went wrong with a previ
 Fortunately, SLURM makes it easy to start an interactive job with `srun`:
 
 ```
-{{ site.remote.prompt }} srun {{ site.sched.submit.options }} --pty --time=00:01:00 /bin/bash
+{{ site.remote.prompt }} srun {{ site.sched.submit.options }} --time=00:01:00 --pty /bin/bash
 ```
 {: .language-bash}
 
