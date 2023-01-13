@@ -25,6 +25,11 @@ simultaneously. We only need to aggregate the data at the end to compute
 our fraction f and our estimate for π.
 """
 
+import mpi4py.rc
+# Turn off automatic MPI initialisation - the MPI initialization 
+# is invoked explicitly by calling MPI.Init().
+mpi4py.rc.initialize = False
+
 import numpy as np
 import sys
 import datetime
@@ -61,6 +66,9 @@ if __name__ == '__main__':
     An estimate of the required memory, elapsed calculation time, and
     accuracy of calculating π are also computed.
     """
+
+    # Initialise MPI explicitly
+    MPI.Init()
 
     # Declare an MPI Communicator for the parallel processes to talk through
     comm = MPI.COMM_WORLD

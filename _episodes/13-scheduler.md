@@ -152,6 +152,14 @@ status, we check the queue using the command
 >
 > Cluster job output is typically redirected to a file in the directory you
 > launched it from. Use `ls` to find and `cat` to read the file.
+>
+> On some HPC systems you may need to redirect the output explictly in your
+> job submission script. You can achieve this by setting the options for 
+> error `--error=<error_filename>` and output `--output=<output_filename>`
+> filenames with `#SBATCH` in your job script. 
+> On Cirrus this is handled by default with output and error files named
+> according to the job submission id.
+>
 {: .discussion}
 
 ## Customising a Job

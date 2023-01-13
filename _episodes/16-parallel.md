@@ -98,12 +98,12 @@ if __name__ == '__main__':
 {: .language-python}
 
 If we run the Python script locally with a command-line parameter, as in
-`python pi-serial.py 1024`, we should see the script print its estimate of
+`python pi.py 1024`, we should see the script print its estimate of
 π:
 
 ```
-{{ site.local.prompt }} python pi-serial.py 1024
-3.10546875
+{{ site.local.prompt }} python pi.py 1024
+3.04296875
 ```
 {: .language-bash}
 
@@ -158,7 +158,7 @@ Replace the `print(my_pi)` line with the following:
 ```
 size_of_float = np.dtype(np.float64).itemsize
 memory_required = 3 * n_samples * size_of_float / (1024**3)
-print("Pi: {}, memory: {} GiB".format(my_pi, memory_required))
+print(f"Pi: {my_pi}, memory: {memory_required} GiB")
 ```
 {: .language-python}
 
@@ -189,7 +189,7 @@ def main():
     my_pi = 4.0 * counts / n_samples
     size_of_float = np.dtype(np.float64).itemsize
     memory_required = 3 * n_samples * size_of_float / (1024**3)
-    print("Pi: {}, memory: {} GiB".format(my_pi, memory_required))
+    print(f"Pi: {my_pi}, memory: {memory_required} GiB")
 
 if __name__ == '__main__':
     main()
@@ -200,13 +200,13 @@ Run the script again with a few different values for the number of samples,
 and see how the memory required changes:
 
 ```
-{{ site.local.prompt }} python pi-serial.py 1000
+{{ site.local.prompt }} python pi.py 1000
 Pi: 3.144, memory: 2.2351741790771484e-05 GiB
-{{ site.local.prompt }} python pi-serial.py 2000
+{{ site.local.prompt }} python pi.py 2000
 Pi: 3.18, memory: 4.470348358154297e-05 GiB
-{{ site.local.prompt }} python pi-serial.py 1000000
+{{ site.local.prompt }} python pi.py 1000000
 Pi: 3.140944, memory: 0.022351741790771484 GiB
-{{ site.local.prompt }} python pi-serial.py 100000000
+{{ site.local.prompt }} python pi.py 100000000
 Pi: 3.14182724, memory: 2.2351741790771484 GiB
 ```
 {: .language-bash }
@@ -260,8 +260,7 @@ elapsed_time = (end_time - start_time).total_seconds()
 And finally, modify the `print` statement with the following:
 
 ```
-print("Pi: {}, memory: {} GiB, time: {} s".format(my_pi, memory_required,
-                                                  elapsed_time))
+print(f"Pi: {my_pi}, memory: {memory_required} GiB, time: {elapsed_time} s")
 ```
 {: .language-python}
 
@@ -288,8 +287,7 @@ def main():
     elapsed_time = (end_time - start_time).total_seconds()
     size_of_float = np.dtype(np.float64).itemsize
     memory_required = 3 * n_samples * size_of_float / (1024**3)
-    print("Pi: {}, memory: {} GiB, time: {} s".format(my_pi, memory_required,
-                                                      elapsed_time))
+    print(f"Pi: {my_pi}, memory: {memory_required} GiB, time: {elapsed_time} s")
 
 if __name__ == '__main__':
     main()
@@ -300,11 +298,11 @@ Run the script again with a few different values for the number of samples,
 and see how the solution time changes:
 
 ```
-{{ site.local.prompt }} python pi-serial.py 1000000
+{{ site.local.prompt }} python pi.py 1000000
 Pi: 3.139612, memory: 0.022351741790771484 GiB, time: 0.034872 s
-{{ site.local.prompt }} python pi-serial.py 10000000
+{{ site.local.prompt }} python pi.py 10000000
 Pi: 3.1425492, memory: 0.22351741790771484 GiB, time: 0.351212 s
-{{ site.local.prompt }} python pi-serial.py 100000000
+{{ site.local.prompt }} python pi.py 100000000
 Pi: 3.14146608, memory: 2.2351741790771484 GiB, time: 3.735195 s
 ```
 {: .language-bash }
@@ -341,8 +339,14 @@ If you have 16 GiB installed, you won't quite make it to 750,000,000 points.
 
 ## Running the Serial Job on a Compute Node
 
-Create a submission file, requesting one task on a single node and enough
-memory to prevent the job from running out of memory:
+Replicate the `pi.py` script in the `/work/tc036/tc036/yourUsername` space on Cirrus. You can copy the local file directly using `scp` or `rsync` or just copy and paste the contents into a new file on Cirrus.
+
+```
+{{ site.local.prompt }} scp pi.py yourUsername@login.cirrus.ac.uk:/work/tc036/tc036/yourUsername
+```
+{: .language-bash}
+
+Create a submission file, requesting one task on a single node. If we do not specify a maximum walltime for the job using `--time=<hh:mm:ss>` then (on Cirrus) the job will be submitted with the `short` default maximum time of 20 minutes. To avoid a warning message we will allocate a very generous 1 minute.
 
 ```
 {{ site.remote.prompt }} nano serial-pi.sh
@@ -352,8 +356,22 @@ memory to prevent the job from running out of memory:
 
 {% include {{ site.snippets }}/parallel/one-task-with-memory-jobscript.snip %}
 
-Then submit your job. We will use the batch file to set the options,
-rather than the command line.
+
+> ## Memory Requirements
+>
+> On some HPC systems you may need to specify the memory requirements of the job
+> using the `--mem`, `--mem-per-cpu`, `--mem-per-gpu` options. However, on Cirrus
+> you cannot specify the memory for a job. The amount of memory you are assigned 
+> is calculated from the amount of primary resource you request.
+> The primary resource you request on standard compute nodes are CPU cores. The maximum amount of memory you 
+> are allocated is computed as the number of CPU cores you requested multiplied by 1/36th of the total memory 
+> available (as there are 36 CPU cores per node). So, if you request the full node (36 cores), then you will 
+> be allocated a maximum of all of the memory (256 GB) available on the node; however, if you request 1 core, 
+> then you will be assigned a maximum of 256/36 = 7.1 GB of the memory available on the node.
+>
+{: .callout}
+
+Then submit your job.
 
 ```
 {{ site.remote.prompt }} {{ site.sched.submit.name }} serial-pi.sh
@@ -367,13 +385,11 @@ Use `ls` to locate the output file, and examine it. Is it what you expected?
 * How much memory did it need?
 * How long did the job take to run?
 
-Modify the job script to increase both the number of samples and the amount
-of memory requested (perhaps by a factor of 2, then by a factor of 10),
-and resubmit the job each time.
+Modify the job script to increase both the number of samples (perhaps by a factor of 2, then by a factor of 10), and resubmit the job each time.
 
 * How good is the value for π?
 * How much memory did it need?
-* How long did the job take to run?
+* Did you encounter any errors?
 
 Even with sufficient memory for necessary variables,
 a script could require enormous amounts of time to calculate on a single CPU.
@@ -423,7 +439,12 @@ included.
 
 > ## What Changes Are Needed for an MPI Version of the π Calculator?
 >
-> First, we need to import the `MPI` object from the Python module `mpi4py` by
+> On Cirrus we need to first import `mpi4py.rc` and set `mpi4py.rc.initialize = False`
+> before we can import the standard `mpi4py` Python module. This may not be necessary
+> on other HPC systems and you should consult the documentation if you experience
+> problems setting up MPI.
+>
+> Next, we need to import the `MPI` object from the Python module `mpi4py` by
 > adding an `from mpi4py import MPI` line immediately below the `import
 > datetime` line.
 >
@@ -548,13 +569,14 @@ if rank == 0:
    elapsed_time = (end_time - start_time).total_seconds()
    size_of_float = np.dtype(np.float64).itemsize
    memory_required = 3 * sum(partitions) * size_of_float / (1024**3)
-   print("Pi: {}, memory: {} GiB, time: {} s".format(my_pi, memory_required,
-                                                            elapsed_time))
+   pi_specific = np.pi
+   accuracy = 100*(1-my_pi/pi_specific)
+   print(f"Pi: {my_pi:6f}, memory: {memory_required:6f} GiB, time: {elapsed_time:6f} s, error: {accuracy:6f}%")
 ```
 {: .language-python}
 
 A fully commented version of the final MPI parallel python code is available:
-[pi-mpi.py]({{ site.url }}{{ site.baseurl }}/files/pi-mpi.py).
+[pi-mpi-cirrus.py]({{ site.url }}{{ site.baseurl }}/files/pi-mpi-cirrus.py).
 
 Our purpose here is to exercise the parallel workflow of the cluster, not to
 optimize the program to minimize its memory footprint.
@@ -571,8 +593,7 @@ Create a submission file, requesting more than one task on a single node:
 
 {% include {{ site.snippets }}/parallel/four-tasks-jobscript.snip %}
 
-Then submit your job. We will use the batch file to set the options,
-rather than the command line.
+Then submit your job.
 
 ```
 {{ site.remote.prompt }} {{ site.sched.submit.name }} parallel-pi.sh
@@ -587,8 +608,8 @@ Is it what you expected?
 * How much memory did it need?
 * How much faster was this run than the serial run with 100000000 points?
 
-Modify the job script to increase both the number of samples and the amount
-of memory requested (perhaps by a factor of 2, then by a factor of 10),
+Modify the job script to increase the number of samples (perhaps by a factor of 2, 
+then by a factor of 10),
 and resubmit the job each time.
 You can also increase the number of CPUs.
 
