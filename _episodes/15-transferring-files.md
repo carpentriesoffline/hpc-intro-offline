@@ -255,6 +255,10 @@ Hit "Quickconnect" to connect. You should see your remote files appear on the
 right hand side of the screen. You can drag-and-drop files between the left
 (local) and right (remote) sides of the screen to transfer files.
 
+{% include figure.html url="" max-width="70%"
+   file="/fig/filezilla-screenshot.png"
+   alt="FileZilla Main Window" caption="" %}
+
 Finally, if you need to move large files (typically larger than a gigabyte)
 from one remote computer to another remote computer, SSH in to the computer
 hosting the files and use `scp` or `rsync` to transfer over to the other. This
@@ -279,9 +283,9 @@ The most common archiving command you will use on a (Linux) HPC cluster is
 optionally, compress it.
 
 Let's start with the file we downloaded from the lesson site,
-`hpc-lesson-data.tar.gz`. The "gz" part stands for _gzip_, which is a
+`hpc-into-data.tar.gz`. The "gz" part stands for _gzip_, which is a
 compression library. Reading this file name, it appears somebody took a folder
-named "hpc-lesson-data," wrapped up all its contents in a single file with
+named "hpc-intro-data," wrapped up all its contents in a single file with
 `tar`, then compressed that archive with `gzip` to save space. Let's check
 using `tar` with the `-t` flag, which prints the "**t**able of contents"
 without unpacking the file, specified by `-f <filename>`, on the remote
@@ -290,7 +294,7 @@ computer. Note that you can concatenate the two flags, instead of writing
 
 ```
 {{ site.local.prompt }} ssh {{ site.remote.user }}@{{ site.remote.login }}
-{{ site.remote.prompt }} tar -tf hpc-lesson-data.tar.gz
+{{ site.remote.prompt }} tar -tf hpc-intro-data.tar.gz
 hpc-intro-data/
 hpc-intro-data/north-pacific-gyre/
 hpc-intro-data/north-pacific-gyre/NENE01971Z.txt
@@ -321,7 +325,7 @@ familiar. Let's see about that compression, using `du` for "**d**isk
 **u**sage".
 
 ```
-{{ site.remote.prompt }} du -sh hpc-lesson-data.tar.gz
+{{ site.remote.prompt }} du -sh hpc-intro-data.tar.gz
 36K     hpc-intro-data.tar.gz
 ```
 {: .language-bash}
@@ -351,7 +355,7 @@ When it's done, check the directory size with `du` and compare.
 > > ## Commands
 > >
 > > ```
-> > {{ site.remote.prompt }} tar -xvzf hpc-lesson-data.tar.gz
+> > {{ site.remote.prompt }} tar -xvzf hpc-intro-data.tar.gz
 > > ```
 > > {: .language-bash}
 > >
@@ -384,8 +388,8 @@ When it's done, check the directory size with `du` and compare.
 > > concatenation, though the command works identically either way.
 > >
 > > ```
-> > {{ site.remote.prompt }} du -sh hpc-lesson-data
-> > 144K    hpc-intro-data
+> > {{ site.remote.prompt }} du -sh hpc-intro-data
+> > 77K    hpc-intro-data
 > > ```
 > > {: .language-bash}
 > {: .solution}
