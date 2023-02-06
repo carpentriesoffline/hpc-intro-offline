@@ -174,13 +174,13 @@ and where the data is going.
 
 The components between your data's source and destination have
 varying levels of performance, and in particular, may have
-different capabilities with respect to __bandwidth__ and __latency__.
+different capabilities with respect to **bandwidth** and **latency**.
 
-__Bandwidth__ is generally the raw amount of data per unit time a
+**Bandwidth** is generally the raw amount of data per unit time a
 device is capable of transmitting or receiving. It's a common
 and generally well-understood metric.
 
-__Latency__ is a bit more subtle. For data transfers, it may be thought
+**Latency** is a bit more subtle. For data transfers, it may be thought
 of as the amount of time it takes to get data out of storage and into
 a transmittable form. Latency issues are the reason it's advisable
 to execute data transfers by moving a small number of large
@@ -188,12 +188,12 @@ files, rather than the converse.
 
 Some of the key components and their associated issues are:
 
-* __Disk speed__: File systems on HPC systems are often highly parallel,
+* **Disk speed**: File systems on HPC systems are often highly parallel,
   consisting of a very large number of high performance disk drives. This
   allows them to support a very high data bandwidth. Unless the remote system
   has a similar parallel file system you may find your transfer speed limited
   by disk performance at that end.
-* __Meta-data performance__: _Meta-data operations_ such as opening and closing
+* **Meta-data performance**: *Meta-data operations* such as opening and closing
   files or listing the owner or size of a file are much less parallel than
   read/write operations. If your data consists of a very large number of small
   files you may find your transfer speed is limited by meta-data operations.
@@ -201,11 +201,11 @@ Some of the key components and their associated issues are:
   strongly with those you perform so reducing the number of such operations you
   use (by combining multiple files into a single file) may reduce variability
   in your transfer rates and increase transfer speeds.
-* __Network speed__: Data transfer performance can be limited by network speed.
+* **Network speed**: Data transfer performance can be limited by network speed.
   More importantly it is limited by the slowest section of the network between
   source and destination. If you are transferring to your laptop/workstation,
   this is likely to be its connection (either via LAN or WiFi).
-* __Firewall speed__: Most modern networks are protected by some form of
+* **Firewall speed**: Most modern networks are protected by some form of
   firewall that filters out malicious traffic. This filtering has some overhead
   and can result in a reduction in data transfer performance. The needs of a
   general purpose network that hosts email/web-servers and desktop machines are
@@ -284,3 +284,40 @@ talked about data transfer earlier.
 > >    latency (making the most of your time and network connection).
 > {: .solution}
 {: .challenge}
+
+
+## What to expect on different HPC systems
+
+This course has aimed to give an introduction to HPC and equip you with the general skills to start using these systems. You may find when you return to your institutions that there are differences between Cirrus and the systems that are available to you. For example,
+
+* **Hardware & Architecture**  e.g. CPU vs. GPU
+* **Queues & Partitions** e.g. priority or job type based queuing systems
+* **File System** e.g. differences in where to launch jobs, install software and store data 
+* **Modules** e.g. default versions of software, how and what a user can install
+* **Scheduler** e.g. Slurm vs. Torque
+* **Inline Editor** e.g. vim, emacs as default instead of nano
+
+### Scheduler
+
+**SLURM** (Simple Linux Utility for Resource Management) is a very popular schedulers for HPC systems but there are others that you may encounter, particularly on legacy or smaller HPC systems. Many of the concepts are similar however. The main differences between schedulers is in the commands used to submit and monitor jobs, the syntax used to request resources and the behaviour of environment variables. Some alternative schedulers include [MOAB/Torque](https://www.chpc.utah.edu/documentation/software/moab.php) and [PBS/Torque](https://www.chpc.utah.edu/documentation/software/pbs-scheduler.php).
+
+
+For example, submitting a job on Slurm and Torque systems:
+
+```
+{{ site.remote.prompt }} sbatch <job script>
+```
+{: .language-bash}
+
+```
+[yourUsername@other-hpc-login1 ~]$ qsub <job script>
+```
+{: .language-bash}
+
+Comparison guides for these systems can easily by found online, for example [here](https://miamioh.edu/research/research-computing-support/services/hpc-cluster/sbatch-translation/index.html).
+
+
+
+
+
+
