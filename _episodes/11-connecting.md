@@ -65,17 +65,126 @@ Even if your cluster does not require it, the next section will guide you
 through the use of SSH keys and an SSH agent to both strengthen your security
 _and_ make it more convenient to log in to remote systems.
 
-### Better Security With SSH Keys
 
-The [Lesson Setup]({{ page.root }}/setup) provides instructions for installing
-a shell application with SSH. If you have not done so already, please open that
-shell application with a Unix-like command line interface to your system.
+## Log In to the Cluster
+
+Go ahead and open your terminal or graphical SSH client, then log in to the
+cluster. Replace `{{ site.remote.user }}` with your username or the one
+supplied by the instructors.
+
+```
+{{ site.local.prompt }} ssh {{ site.remote.user }}@{{ site.remote.login }}
+```
+{: .language-bash}
+
+You may be asked for your password. Watch out: the characters you type after
+the password prompt are not displayed on the screen. Normal output will resume
+once you press `Enter`.
+
+You may have noticed that the prompt changed when you logged into the remote
+system using the terminal. This change is important because
+it can help you distinguish on which system the commands you type will be run
+when you pass them into the terminal. This change is also a small complication
+that we will need to navigate throughout the workshop. Exactly what is displayed
+as the prompt (which conventionally ends in `$`) in the terminal when it is
+connected to the local system and the remote system will typically be different
+for every user. We still need to indicate which system we are entering commands
+on though so we will adopt the following convention:
+
+* `{{ site.local.prompt }}` when the command is to be entered on a terminal
+  connected to your local computer
+* `{{ site.remote.prompt }}` when the command is to be entered on a
+  terminal connected to the remote system
+* `$` when it really doesn't matter which system the terminal is connected to.
+
+
+### Creating an alias for quicker login
+We can create an alias on our local machine to use as a shortcut to login to Cirrus.
+Instead of typing `ssh yourUsername@login.cirrus.ac.uk` every time we want to login
+we can reduce it to a much shorter command, for example `ssh cirrus`
+
+Create the file `~/.ssh/config` if it does not exist on your local machine. Add the following lines:  
+```
+Host cirrus  
+  Hostname login.cirrus.ac.uk  
+  User yourUsername
+  IdentityFile ~/.ssh/mykey
+```
+{: .language-bash}
+
+You should now be able to connect to Cirrus from your local machine with the following shell command,
+```
+{{ site.local.prompt }} ssh cirrus
+```
+{: .language-bash}
+
+
+
+
+## Looking Around Your Remote Home
+
+Very often, many users are tempted to think of a high-performance computing
+installation as one giant, magical machine. Sometimes, people will assume that
+the computer they've logged onto is the entire computing cluster. So what's
+really happening? What computer have we logged on to? The name of the current
+computer we are logged onto can be checked with the `hostname` command. (You
+may also notice that the current hostname is also part of our prompt!)
+
+```
+{{ site.remote.prompt }} hostname
+```
+{: .language-bash}
+
+```
+{{ site.remote.host }}
+```
+{: .output}
+
+So, we're definitely on the remote machine. Next, let's find out where we are
+by running `pwd` to **p**rint the **w**orking **d**irectory.
+
+```
+{{ site.remote.prompt }} pwd
+```
+{: .language-bash}
+
+```
+{{ site.remote.homedir }}/{{ site.remote.user }}
+```
+{: .output}
+
+Great, we know where we are! 
+
+Let's see what's in our current directory. The system administrators may have configured your home directory with some
+helpful files, folders, and links (shortcuts) to space reserved for you on
+other filesystems. If they did not, your home directory may appear empty. To
+double-check, include hidden files in your directory listing:
+
+```
+{{ site.remote.prompt }} ls -a
+```
+{: .language-bash}
+```
+.  ..  .bash_history  .cache  .config .local  .python_history  .ssh
+
+```
+{: .output}
+
+In the first column, `.` is a reference to the current directory and `..` a
+reference to its parent (`{{ site.remote.homedir }}`). You may or may not see
+the other files, or files like them: `.bashrc` is a shell configuration file,
+which you can edit with your preferences; and `.ssh` is a directory storing SSH
+keys and a record of authorized connections.
+
+### SSH Keys
+
 
 SSH keys are an alternative method for authentication to obtain access to
 remote computing systems. They can also be used for authentication when
 transferring files or for accessing remote version control systems (such as
 [GitHub][gh-ssh]).
-In this section you will create a pair of SSH keys:
+
+During `setup` you will have create a pair of SSH keys:
 
 * a private key which you keep on your own computer, and
 * a public key which can be placed on any remote system you will access.
@@ -110,6 +219,46 @@ private SSH key.
 >    skipped password entry by accident, go back and generate a new key pair
 >    _with_ a strong password.
 {: .callout}
+
+
+> On your local machine take a look in `~/.ssh` (use `ls ~/.ssh`). You should see two new files:
+> * your private key (`~/.ssh/id_rsa`): _do not share with anyone!_
+> * the shareable public key (`~/.ssh/id_rsa.pub`): if a system administrator
+>   asks for a key, this is the one to send. It is also safe to upload to
+>   websites such as GitHub: it is meant to be seen.
+{: .callout}
+
+The public key you uploaded to SAFE can be found in the `.ssh` folder:
+```
+{{ site.remote.prompt }} ls .ssh/
+```
+{: .language-bash}
+```
+authorized_keys  id_rsa  id_rsa.pub
+```
+{: .output}
+
+```
+{{ site.remote.prompt }} cat .ssh/id_rsa.pub
+```
+{: .language-bash}
+```
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCk44JLYQ4DCAcalNNJqtLsZAVSUvkbSt0OdPYycqo/2hvgvrs+8HsSyys+V6gKBA2zVL7rnLpMprJx8aN8bJwFfIBxzBsGZ7HFyL5Gs1cz1olbbouzBkS10TJu/9SAN6XyG7BVxAQC75Kz91Vb3sYQmFZC6pUZw4fShUAUVbXCXKbcIS+RjR9iaUBiTmpRoYoc6bdMiGHFLuHz4scCfHCGpjNI6OSpIbF6L99GhftmwZxlb9TaId8SBnOkBzjsYSFui0x06rFFdy7rrqwsYx0XKMmLwDY7U21z1DVx1/SCWll704b5BO111N/89SyEr3O4QtqDP4FKkSCFFayelNlvmQB4+QDGdvJHs0YBYMQ372fskItIUNOp5q2ioCt88mD15JPsxtEAUqbXcfSoZZE5y1FLVngAT5sUDqK+kX9sxhIf3E16gQOcMG3AxMMmVHuSFcqfoCLgU1jcT2x9hacc8QlPX7LQPPm8SzYCeVr3MavnNP+JiA1vhxKMlKbRThc= yourUsername@cirrus-login1
+```
+{: .output}
+
+
+> ## There May Be a Better Way
+>
+> Policies and practices for handling SSH keys vary between HPC clusters:
+> follow any guidance provided by the cluster administrators or
+> documentation. Other systems may not have a online portal for managing SSH
+> keys and you may need to upload your public key onto the HPC explicitly.
+{: .callout}
+
+
+
+<!---
 
 #### SSH Keys on Linux, Mac, MobaXterm, and Windows Subsystem for Linux
 
@@ -181,13 +330,13 @@ Take a look in `~/.ssh` (use `ls ~/.ssh`). You should see two new files:
 > When prompted, enter a strong password with the
 > [above considerations in mind](#considerations-for-ssh-key-passwords).
 >
-> Take a look in `~/.ssh` (use `ls ~/.ssh`). You should see two new files:
+ Take a look in `~/.ssh` (use `ls ~/.ssh`). You should see two new files:
 >
 > * your private key (`~/.ssh/id_rsa`): _do not share with anyone!_
 > * the shareable public key (`~/.ssh/id_rsa.pub`): if a system administrator
 >   asks for a key, this is the one to send. It is also safe to upload to
 >   websites such as GitHub: it is meant to be seen.
-{: .callout}
+{: .callout}>
 
 #### SSH Keys on PuTTY
 
@@ -310,101 +459,13 @@ Use the **s**ecure **c**o**p**y tool to send your public key to the cluster.
 {: .language-bash}
 {% endif %}
 
-## Log In to the Cluster
+--->
 
-Go ahead and open your terminal or graphical SSH client, then log in to the
-cluster. Replace `{{ site.remote.user }}` with your username or the one
-supplied by the instructors.
 
-```
-{{ site.local.prompt }} ssh {{ site.remote.user }}@{{ site.remote.login }}
-```
-{: .language-bash}
 
-You may be asked for your password. Watch out: the characters you type after
-the password prompt are not displayed on the screen. Normal output will resume
-once you press `Enter`.
 
-You may have noticed that the prompt changed when you logged into the remote
-system using the terminal (if you logged in using PuTTY this will not apply
-because it does not offer a local terminal). This change is important because
-it can help you distinguish on which system the commands you type will be run
-when you pass them into the terminal. This change is also a small complication
-that we will need to navigate throughout the workshop. Exactly what is displayed
-as the prompt (which conventionally ends in `$`) in the terminal when it is
-connected to the local system and the remote system will typically be different
-for every user. We still need to indicate which system we are entering commands
-on though so we will adopt the following convention:
 
-* `{{ site.local.prompt }}` when the command is to be entered on a terminal
-  connected to your local computer
-* `{{ site.remote.prompt }}` when the command is to be entered on a
-  terminal connected to the remote system
-* `$` when it really doesn't matter which system the terminal is connected to.
-
-## Looking Around Your Remote Home
-
-Very often, many users are tempted to think of a high-performance computing
-installation as one giant, magical machine. Sometimes, people will assume that
-the computer they've logged onto is the entire computing cluster. So what's
-really happening? What computer have we logged on to? The name of the current
-computer we are logged onto can be checked with the `hostname` command. (You
-may also notice that the current hostname is also part of our prompt!)
-
-```
-{{ site.remote.prompt }} hostname
-```
-{: .language-bash}
-
-```
-{{ site.remote.host }}
-```
-{: .output}
-
-So, we're definitely on the remote machine. Next, let's find out where we are
-by running `pwd` to **p**rint the **w**orking **d**irectory.
-
-```
-{{ site.remote.prompt }} pwd
-```
-{: .language-bash}
-
-```
-{{ site.remote.homedir }}/{{ site.remote.user }}
-```
-{: .output}
-
-Great, we know where we are! Let's see what's in our current directory:
-
-```
-{{ site.remote.prompt }} ls
-```
-{: .language-bash}
-```
-id_ed25519.pub
-```
-{: .output}
-
-The system administrators may have configured your home directory with some
-helpful files, folders, and links (shortcuts) to space reserved for you on
-other filesystems. If they did not, your home directory may appear empty. To
-double-check, include hidden files in your directory listing:
-
-```
-{{ site.remote.prompt }} ls -a
-```
-{: .language-bash}
-```
-  .            .bashrc           id_ed25519.pub
-  ..           .ssh
-```
-{: .output}
-
-In the first column, `.` is a reference to the current directory and `..` a
-reference to its parent (`{{ site.remote.homedir }}`). You may or may not see
-the other files, or files like them: `.bashrc` is a shell configuration file,
-which you can edit with your preferences; and `.ssh` is a directory storing SSH
-keys and a record of authorized connections.
+<!---
 
 ### Install Your SSH Key
 
@@ -449,6 +510,8 @@ password for your SSH key.
 {{ site.local.prompt }} ssh {{ site.remote.user }}@{{ site.remote.login }}
 ```
 {: .language-bash}
+
+--->
 
 {% include links.md %}
 
