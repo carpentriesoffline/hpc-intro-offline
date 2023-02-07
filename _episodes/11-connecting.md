@@ -77,8 +77,7 @@ supplied by the instructors.
 ```
 {: .language-bash}
 
-You may be asked for your password. Watch out: the characters you type after
-the password prompt are not displayed on the screen. Normal output will resume
+You will be prompted first for your ssh key passphrase and then for your Cirrus login password. Watch out: the characters you type after the password prompt are not displayed on the screen. Normal output will resume
 once you press `Enter`.
 
 You may have noticed that the prompt changed when you logged into the remote
@@ -140,8 +139,10 @@ may also notice that the current hostname is also part of our prompt!)
 ```
 {: .output}
 
-So, we're definitely on the remote machine. Next, let's find out where we are
-by running `pwd` to **p**rint the **w**orking **d**irectory.
+So, we're definitely on the remote machine. Note that since there are two login nodes on Cirrus
+the `hostname` command may also return `cirrus-login1`.
+
+Next, let's find out where we are by running `pwd` to **p**rint the **w**orking **d**irectory.
 
 ```
 {{ site.remote.prompt }} pwd
