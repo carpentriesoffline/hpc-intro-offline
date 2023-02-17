@@ -42,9 +42,10 @@ everything) but you should receive a warning if you try to do this.
 ```
 Warning: Unloading the epcc/setup-env module will stop many
 modules being available on the system. If you do this by
-accident, you can recover the situation with the command:
+accident, you can recover the situation with the commands:
 
-        module load /lustre/sw/modulefiles/epcc/setup-env
+        module use /mnt/lustre/indy2lfs/sw/modulefiles
+        module load epcc/setup-env
 ```
 {: .output}
 
@@ -53,6 +54,7 @@ Note that `module purge` has removed the `R` module as well as
 removes many potentially useful modules. We can re-load these by
 following the instructions in the warning.
 ```
-{{ site.remote.prompt }} module load /lustre/sw/modulefiles/epcc/setup-env
+{{ site.remote.prompt }} module use /mnt/lustre/indy2lfs/sw/modulefiles
+{{ site.remote.prompt }} module load epcc/setup-env
 ```
 {: .language-bash}
