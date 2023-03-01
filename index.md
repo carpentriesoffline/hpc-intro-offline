@@ -7,7 +7,7 @@ root: .
 
 This workshop is an introduction to using high-performance computing systems
 effectively. We can't cover every case or give an exhaustive course on parallel
-programming in just two days' teaching time. Instead, this workshop is intended
+programming in just a single days' teaching time. Instead, this workshop is intended
 to give students a good introduction and overview of the tools available and
 how to use them effectively.
 
@@ -15,7 +15,7 @@ how to use them effectively.
 >
 > Command line experience is necessary for this lesson. We recommend the
 > participants to go through
-> [shell-novice](https://swcarpentry.github.io/shell-novice/), if new to the
+> [shell-novice](https://swcarpentry.github.io/shell-novice/) lessons, if new to the
 > command line (also known as terminal or shell).
 {: .prereq}
 
