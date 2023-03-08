@@ -32,8 +32,8 @@ if __name__ == '__main__':
     main()
  ```
     
- ## Parallel Code
- Code for using mpi with python. It looks way longer, but bear in mind it also is fully commented!
+## Parallel Code
+Code for using mpi with python. It looks way longer, but bear in mind it also is fully commented!
  
  ```
  #!/usr/bin/env python3
