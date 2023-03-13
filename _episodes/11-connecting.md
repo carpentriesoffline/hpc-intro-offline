@@ -140,7 +140,7 @@ may also notice that the current hostname is also part of our prompt!)
 {: .output}
 
 So, we're definitely on the remote machine. Note that since there are two login nodes on Cirrus
-the `hostname` command may also return `cirrus-login1`.
+the `hostname` command may also return `cirrus-login2`.
 
 Next, let's find out where we are by running `pwd` to **p**rint the **w**orking **d**irectory.
 
