@@ -30,35 +30,3 @@ Currently Loaded Modulefiles:
 {: .output}
 
 So using `module unload` "un-loads" a module along with its dependencies. 
-
-<!--- If we
-wanted to unload everything at once, we could run `module purge` (unloads
-everything) but you should receive a warning if you try to do this.
-
-```
-{{ site.remote.prompt }} module load gromacs
-{{ site.remote.prompt }} module purge
-```
-{: .language-bash}
-
-```
-Warning: Unloading the epcc/setup-env module will stop many
-modules being available on the system. If you do this by
-accident, you can recover the situation with the commands:
-
-        module use /mnt/lustre/indy2lfs/sw/modulefiles
-        module load epcc/setup-env
-```
-{: .output}
-
-Note that `module purge` has removed the `R` module as well as
-`gromacs` and its dependencies. We also received a warning that purging
-removes many potentially useful modules. We can re-load these by
-following the instructions in the warning.
-```
-{{ site.remote.prompt }} module use /mnt/lustre/indy2lfs/sw/modulefiles
-{{ site.remote.prompt }} module load epcc/setup-env
-```
-{: .language-bash}
-
----!>
