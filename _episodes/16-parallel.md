@@ -40,6 +40,35 @@ in parallel.
    file="/fig/pi.png"
    alt="Algorithm for computing pi through random sampling" %}
 
+## Get code for this episode
+
+The Python code you will use in this episode has been pre-written and you can obtain a copy in three ways:
+- Under the **Extras** tab at the top of this page there is a link to the code. Create two new files in your working directory on Cirrus and copy the contents into them.
+- Use the commands `curl` or `wget` from the previous episode to download the files directly into your working directory on Cirrus and extract the archive. Remember you will need to specify the path to these Python files in your job submission scripts. It may be useful to `cd` into this directory or `mv` the contents directly to the path `/work/tc036/tc036/yourUsername`.
+
+
+```
+{{ site.local.prompt }} curl -O {{ site.url }}{{ site.baseurl }}/files/python-pi-code.tar.gz
+{{ site.local.prompt }} tar -xvzf python-pi-code.tar.gz
+```
+{: .language-bash}
+or
+```
+{{ site.local.prompt }} wget {{ site.url }}{{ site.baseurl }}/files/python-pi-code.tar.gz
+{{ site.local.prompt }} tar -xvzf python-pi-code.tar.gz
+```
+{: .language-bash}
+
+
+- You can also create a local copy of the files on your machine and then use `scp` or `rsync` to copy the file onto Cirrus.
+
+```
+{{ site.local.prompt }} scp pi.py yourUsername@login.cirrus.ac.uk:/work/tc036/tc036/yourUsername
+{{ site.local.prompt }} scp pi-mpi-cirrus.py yourUsername@login.cirrus.ac.uk:/work/tc036/tc036/yourUsername
+```
+{: .language-bash}
+
+
 ## A Serial Solution to the Problem
 
 We start from a Python script using concepts taught in Software Carpentry's
@@ -339,12 +368,7 @@ If you have 16 GiB installed, you won't quite make it to 750,000,000 points.
 
 ## Running the Serial Job on a Compute Node
 
-Replicate the `pi.py` script in the `/work/tc036/tc036/yourUsername` space on Cirrus. You can copy the local file directly using `scp` or `rsync` or just copy and paste the contents into a new file on Cirrus.
-
-```
-{{ site.local.prompt }} scp pi.py yourUsername@login.cirrus.ac.uk:/work/tc036/tc036/yourUsername
-```
-{: .language-bash}
+Replicate the `pi.py` script in the `/work/tc036/tc036/yourUsername` space on Cirrus. Guidance on how to do this can be found at the beginning of this episode. 
 
 Create a submission file, requesting one task on a single node. If we do not specify a maximum walltime for the job using `--time=<hh:mm:ss>` then (on Cirrus) the job will be submitted with the `short` default maximum time of 20 minutes. To avoid a warning message we will allocate a very generous 1 minute.
 
