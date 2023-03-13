@@ -214,6 +214,12 @@ connect to a shared, remote fileserver or cluster of servers.
 > >   ```
 > >   {: .language-bash}
 > >
+> > * Equivalent OSX command
+> >   ```
+> >   {{ site.local.prompt }} vm_stat
+> >   ```
+> >   {: .language-bash}
+> >
 > > * Read from `/proc`
 > >   ```
 > >   {{ site.local.prompt }} cat /proc/cpuinfo
