@@ -1,4 +1,4 @@
- #!/usr/bin/env python3
+#!/usr/bin/env python3
 
 """Parallel example code for estimating the value of π.
 
@@ -57,7 +57,7 @@ def inside_circle(total_count):
 
 
 if __name__ == '__main__':
-	 """Main executable.
+	"""Main executable.
 
 	This function runs the 'inside_circle' function with a defined number
 	of samples. The results are then used to estimate π.
@@ -123,10 +123,4 @@ if __name__ == '__main__':
 		pi_specific = np.pi
 		accuracy = 100*(1-my_pi/pi_specific)
 
-		print(f"Pi: {my_pi:6f}, memory: {memory_required:6f} GiB, time: {elapsed_time:6f} s, error: {accuracy:6f}%")otal_seconds()
-    size_of_float = np.dtype(np.float64).itemsize
-    memory_required = 3 * n_samples * size_of_float / (1024**3)
-    print(f"Pi: {my_pi}, memory: {memory_required} GiB, time: {elapsed_time} s")
-
-if __name__ == '__main__':
-    main()
+		print(f"Pi: {my_pi:6f}, memory: {memory_required:6f} GiB, time: {elapsed_time:6f} s, error: {accuracy:6f}%")
