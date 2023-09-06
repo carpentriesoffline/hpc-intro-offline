@@ -65,6 +65,17 @@ Even if your cluster does not require it, the next section will guide you
 through the use of SSH keys and an SSH agent to both strengthen your security
 _and_ make it more convenient to log in to remote systems.
 
+## Connect to Carpentries Offline-Network
+
+```
+To be able to login to the Carpentries cluster and use
+
+* Enable Wi-Fi
+
+* Connect to `carpentriesoffline` network
+
+* password: `carpentries`
+```
 
 ## Log In to the Cluster
 
